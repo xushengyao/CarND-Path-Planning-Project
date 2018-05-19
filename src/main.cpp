@@ -295,8 +295,11 @@ int main() {
             // Shift angle
             for (int i = 0; i < ptsx.size(); i++)
             {
-              ptsx[i] = (ptsx[i]-reference_x)*cos(0-reference_yaw)-(ptsy[i]-reference_y)*sin(0-reference_yaw);
-              ptsy[i] = (ptsx[i]-reference_x)*sin(0-reference_yaw)+(ptsy[i]-reference_y)*cos(0-reference_yaw);
+              double shift_x = ptsx[i]-reference_x;
+              double shift_y = ptsy[i]-reference_y;
+
+              pt_x[i] = shift_x * cos(0 - reference_yaw) - shift_y * sin(0 - reference_yaw);
+              pt_y[i] = shift_x * sin(0 - reference_yaw) + shift_y * cos(0 - reference_yaw);
             }
 
             tk::spline s;
@@ -319,8 +322,11 @@ int main() {
 
               x_add_on = x_point;
               // Convert back
-              x_point = x_point*cos(reference_yaw)-y_point*sin(reference_yaw);
-              y_point = x_point*sin(reference_yaw)+y_point*sin(reference_yaw);
+              double x_ref = x_point;
+              double y_ref = y_point;
+
+              x_point = x_ref * cos(reference_yaw) - y_ref * sin(reference_yaw);
+              y_point = x_ref * sin(reference_yaw) + y_ref * cos(reference_yaw);
 
               x_point += reference_x;
               y_point += reference_y;
