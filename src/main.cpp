@@ -298,8 +298,8 @@ int main() {
               double shift_x = ptsx[i]-reference_x;
               double shift_y = ptsy[i]-reference_y;
 
-              pt_x[i] = shift_x * cos(0 - reference_yaw) - shift_y * sin(0 - reference_yaw);
-              pt_y[i] = shift_x * sin(0 - reference_yaw) + shift_y * cos(0 - reference_yaw);
+              ptsx[i] = shift_x * cos(0 - reference_yaw) - shift_y * sin(0 - reference_yaw);
+              ptsy[i] = shift_x * sin(0 - reference_yaw) + shift_y * cos(0 - reference_yaw);
             }
 
             tk::spline s;
