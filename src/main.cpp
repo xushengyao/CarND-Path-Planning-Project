@@ -272,6 +272,7 @@ int main() {
 
               double reference_prev_x = previous_path_x[prev_size - 2];
               double reference_prev_y = previous_path_y[prev_size - 2];
+              reference_yaw = atan2(reference_y-reference_prev_y,reference_x-reference_prev_x);
               ptsx.push_back(reference_prev_x);
               ptsx.push_back(reference_x);
 
