@@ -285,9 +285,9 @@ int main() {
               if (!car_left && (lane_num > 0)){
                 lane_num -= 1;
               } else if (!car_right && (lane_num < 2)){
-                lane_num += 1
+                lane_num += 1;
               } else {
-                reference_speed -= .224
+                reference_speed -= .224;
               }
             } else if (reference_speed < 49.5) {
               reference_speed+=.224;
