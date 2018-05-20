@@ -269,11 +269,11 @@ int main() {
                   if ((check_car_s > car_s) && ((check_car_s - car_s) < 30)) {
                     car_ahead = true;
                   }
-                } else if (d<(2+(lane_num-1)+2) && d>(2+(lane_num-1)-2)) {
+                } else if (d<(2+4*(lane_num-1)+2) && d>(2+4*(lane_num-1)-2)) {
                   if ((car_s - check_car_s < 30) && ((check_car_s - car_s) < 30)) {
                     car_left = true;
                   }
-                } else if (d<(2+(lane_num+1)+2) && d>(2+(lane_num+1)-2)) {
+                } else if (d<(2+4*(lane_num+1)+2) && d>(2+4*(lane_num+1)-2)) {
                   if ((car_s - check_car_s < 30) && ((check_car_s - car_s) < 30)) {
                     car_right = true;
                   }
