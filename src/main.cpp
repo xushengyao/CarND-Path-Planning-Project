@@ -251,7 +251,7 @@ int main() {
             {
               car_s = end_path_s;
             }
-
+            // Prediction
             bool car_ahead = false;
             bool car_left = false;
             bool car_right = false;
@@ -280,13 +280,16 @@ int main() {
                 }
               }
             }
-
+            // Behavior Planning
             if (car_ahead) {
               if (!car_left && (lane_num > 0)){
+                // Left lane is open to pass
                 lane_num -= 1;
               } else if (!car_right && (lane_num < 2)){
+                // right lane is open to pass
                 lane_num += 1;
               } else {
+                // slow down since either lane is not available
                 reference_speed -= .224;
               }
             } else if (reference_speed < 49.5) {
