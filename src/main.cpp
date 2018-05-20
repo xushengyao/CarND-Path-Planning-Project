@@ -252,35 +252,48 @@ int main() {
               car_s = end_path_s;
             }
 
-            bool too_close = false;
+            bool car_ahead = false;
+            bool car_left = false;
+            bool car_right = false;
 
-            for (int i = 0; i < sensor_fusion.size(); i++)
-            {
+            for (int i = 0; i < sensor_fusion.size(); i++) {
               float d = sensor_fusion[i][6];
-              if(d<(2+4*lane_num+2) && d>(2+4*lane_num-2))
-              {
+              // only consider cars in my side
+              if (d>=0 && d<=12) {
                 double vx = sensor_fusion[i][3];
                 double vy = sensor_fusion[i][4];
                 double check_speed = sqrt(vx*vx + vy*vy);
                 double check_car_s = sensor_fusion[i][5];
                 check_car_s+=(double)prev_size*.02*check_speed;
-
-                if ((check_car_s > car_s) && ((check_car_s - car_s) < 30))
-                {
-                  too_close = true;
+                if (d<(2+4*lane_num+2) && d>(2+4*lane_num-2)) {
+                  if ((check_car_s > car_s) && ((check_car_s - car_s) < 30)) {
+                    car_ahead = true;
+                  }
+                } else if (d<(2+(lane_num-1)+2) && d>(2+(lane_num-1)-2)) {
+                  if ((car_s - check_car_s < 10) && ((check_car_s - car_s) < 30)) {
+                    car_left = true;
+                  }
+                } else if (d<(2+(lane_num+1)+2) && d>(2+(lane_num+1)-2)) {
+                  if ((car_s - check_car_s < 10) && ((check_car_s - car_s) < 30)) {
+                    car_right = true;
+                  }
                 }
               }
             }
 
-            if (too_close)
-            {
-              lane_num = 0;
-            }
-            else if(reference_speed < 49.5)
-            {
-              reference_speed+=.225;
+            if (car_ahead) {
+              if (!car_left && (lane_num > 0)){
+                lane_num -= 1;
+              } else if (!car_right && (lane_num < 2)){
+                lane_num += 1
+              } else {
+                reference_speed -= .224
+              }
+            } else if (reference_speed < 49.5) {
+              reference_speed+=.224;
             }
 
+            // Path Generation
             vector<double> ptsx;
             vector<double> ptsy;
 
@@ -288,8 +301,7 @@ int main() {
             double reference_y = car_y;
             double reference_yaw = deg2rad(car_yaw);
 
-            if (prev_size < 2)
-            {
+            if (prev_size < 2) {
               double prev_car_x = car_x - cos(car_yaw);
               double prev_car_y = car_y - sin(car_yaw);
 
@@ -298,9 +310,7 @@ int main() {
 
               ptsy.push_back(prev_car_y);
               ptsy.push_back(car_y);
-            }
-            else
-            {
+            } else {
               reference_x = previous_path_x[prev_size - 1];
               reference_y = previous_path_y[prev_size - 1];
 
@@ -327,8 +337,7 @@ int main() {
             ptsy.push_back(next_waypoints3[1]);
 
             // Shift angle
-            for (int i = 0; i < ptsx.size(); i++)
-            {
+            for (int i = 0; i < ptsx.size(); i++) {
               double shift_x = ptsx[i]-reference_x;
               double shift_y = ptsy[i]-reference_y;
 
@@ -338,8 +347,7 @@ int main() {
 
             tk::spline s;
             s.set_points(ptsx, ptsy);
-            for (int i = 0; i < prev_size; i++)
-            {
+            for (int i = 0; i < prev_size; i++) {
               next_x_vals.push_back(previous_path_x[i]);
               next_y_vals.push_back(previous_path_y[i]);
             }
@@ -348,8 +356,7 @@ int main() {
             double target_dist = sqrt(target_x*target_x + target_y*target_y);
             double x_add_on = 0;
 
-            for (int i = 1; i<= 50 - prev_size; i++)
-            {
+            for (int i = 1; i<= 50 - prev_size; i++) {
               double n = target_dist/(.02*reference_speed/2.24);
               double x_point = x_add_on+target_x/n;
               double y_point = s(x_point);
