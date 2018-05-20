@@ -1,6 +1,59 @@
 # CarND-Path-Planning-Project
 Self-Driving Car Engineer Nanodegree Program
-   
+
+---
+## Rubic Points
+### Compilation
+##### 1. The code compiles correctly.
+
+*  Code can be compiled without errors with cmake and make.
+
+### Valid Trajectories
+##### 1.  The car is able to drive at least 4.32 miles without incident.
+
+* The car can drive at least 10 mills without any collisions.
+
+##### 2. The car drives according to the speed limit.
+
+* Most time the car is driving at around 49.5 mph and never faster than the speed limit.
+
+##### 3. Max Acceleration and Jerk are not Exceeded.
+
+* The car does not exceed a total acceleration of 10 m/s^2 and a jerk of 10 m/s^3.
+
+##### 4. Car does not have collisions.
+
+* During the simulation, the car doesn't collide other cars.
+
+##### 5. The car stays in its lane, except for the time between changing lanes.
+
+* The car is able to stay in its lane except changing lanes.
+
+##### 6. The car is able to change lanes
+
+* The car can change its lane when the car ahead is slower than its speed.
+
+## Model Description
+
+### Prediction
+
+Here, I used three flags: `car_ahead`, `car_left` and `car_right` to determine the relative position of other cars.
+
+```
+```
+
+### Behavior Planning
+
+According to the result from the previous module, this part is used to decide the car's behavior logically. For instance, if there is a car ahead,  
+
+### Trajectory Generation
+ This part is to create a trajectory for the car to follow. Most idea of this module is coming from the Udacity class.
+
+ In order to minimize the jerk, the spline library is used to generate the future trajectory waypoints for the car to follow. The spline method can fit a very smooth polynomial. The input data (via local coordinate conversion) for the spline function including points from previous path and generated points, which are calculated based on Frenet coordinate conversion. 
+
+---   
+## Original README
+
 ### Simulator.
 You can download the Term3 Simulator which contains the Path Planning Project from the [releases tab (https://github.com/udacity/self-driving-car-sim/releases/tag/T3_v1.2).
 
@@ -38,13 +91,13 @@ Here is the data provided from the Simulator to the C++ Program
 #### Previous path data given to the Planner
 
 //Note: Return the previous list but with processed points removed, can be a nice tool to show how far along
-the path has processed since last time. 
+the path has processed since last time.
 
 ["previous_path_x"] The previous list of x points previously given to the simulator
 
 ["previous_path_y"] The previous list of y points previously given to the simulator
 
-#### Previous path's end s and d values 
+#### Previous path's end s and d values
 
 ["end_path_s"] The previous list's last point's frenet s value
 
@@ -52,7 +105,7 @@ the path has processed since last time.
 
 #### Sensor Fusion Data, a list of all other car's attributes on the same side of the road. (No Noise)
 
-["sensor_fusion"] A 2d vector of cars and then that car's [car's unique ID, car's x position in map coordinates, car's y position in map coordinates, car's x velocity in m/s, car's y velocity in m/s, car's s position in frenet coordinates, car's d position in frenet coordinates. 
+["sensor_fusion"] A 2d vector of cars and then that car's [car's unique ID, car's x position in map coordinates, car's y position in map coordinates, car's x velocity in m/s, car's y velocity in m/s, car's s position in frenet coordinates, car's d position in frenet coordinates.
 
 ## Details
 
@@ -82,7 +135,7 @@ A really helpful resource for doing this project and creating smooth trajectorie
   * Run either `install-mac.sh` or `install-ubuntu.sh`.
   * If you install from source, checkout to commit `e94b6e1`, i.e.
     ```
-    git clone https://github.com/uWebSockets/uWebSockets 
+    git clone https://github.com/uWebSockets/uWebSockets
     cd uWebSockets
     git checkout e94b6e1
     ```
@@ -137,4 +190,3 @@ still be compilable with cmake and make./
 
 ## How to write a README
 A well written README file can enhance your project and portfolio.  Develop your abilities to create professional README files by completing [this free course](https://www.udacity.com/course/writing-readmes--ud777).
-
