@@ -1,7 +1,10 @@
 # CarND-Path-Planning-Project
 Self-Driving Car Engineer Nanodegree Program
 
+[image1]: ./capture.jpg
 ---
+![img1][image1]
+
 ## Rubic Points
 ### Compilation
 ##### 1. The code compiles correctly.
@@ -19,7 +22,7 @@ Self-Driving Car Engineer Nanodegree Program
 
 ##### 3. Max Acceleration and Jerk are not Exceeded.
 
-* The car does not exceed a total acceleration of 10 m/s^2 and a jerk of 10 m/s^3.
+* The car does not exceed a total acceleration of 10 m/s^2 and a jerk of 10 m/s^3 during the test.
 
 ##### 4. Car does not have collisions.
 
@@ -37,19 +40,55 @@ Self-Driving Car Engineer Nanodegree Program
 
 ### Prediction
 
-Here, I used three flags: `car_ahead`, `car_left` and `car_right` to determine the relative position of other cars.
+Regarding the prediction module, I used three flags: `car_ahead`, `car_left` and `car_right` to capture other car's position. For instance, if the car being checked is in front of my car, I would like to further check their relative distance. If the distance is within my preset buffer space, `car_ahead` flag will be reset to `Ture`(There is a car blocking my current lane). Also, for `car_right` or `car_left`, similar check process has been implemented to see if there is a car blocking my right or left passing lane.
 
 ```
+if (d<(2+4*lane_num+2) && d>(2+4*lane_num-2)) {
+  if ((check_car_s > car_s) && ((check_car_s - car_s) < 30)) {
+    car_ahead = true;
+  }
+} else if (d<(2+4*(lane_num-1)+2) && d>(2+4*(lane_num-1)-2)) {
+  if ((car_s - check_car_s < 15) && ((check_car_s - car_s) < 30)) {
+    car_left = true;
+  }
+} else if (d<(2+4*(lane_num+1)+2) && d>(2+4*(lane_num+1)-2)) {
+  if ((car_s - check_car_s < 15) && ((check_car_s - car_s) < 30)) {
+    car_right = true;
+  }
+}
 ```
 
 ### Behavior Planning
 
-According to the result from the previous module, this part is used to decide the car's behavior logically. For instance, if there is a car ahead,  
+According to the result from the prediction module, this part is used to decide the car's behavior. For the car in this simulation, three states was used: `KL,LCR,LCL`. Also, central lane is always the preferred option rather than the passing lane or the low-speed lane.
 
+```
+if (car_ahead) {
+  if (!car_left && (lane_num > 0)){
+    // LCL
+    lane_num -= 1;
+  } else if (!car_right && (lane_num < 2)){
+    // LCR
+    lane_num += 1;
+  } else {
+    // KL
+    reference_speed -= .224;
+  }
+} else {
+  // Central Lane is the preference
+  if ((lane_num < 1) && !car_right) {
+    lane_num += 1;
+  } else if  ((lane_num > 1) && !car_left) {
+    lane_num -= 1;
+  }
+  if (reference_speed < 49.5) {
+    reference_speed+=.224;}
+}
+```
 ### Trajectory Generation
  This part is to create a trajectory for the car to follow. Most idea of this module is coming from the Udacity class.
 
- In order to minimize the jerk, the spline library is used to generate the future trajectory waypoints for the car to follow. The spline method can fit a very smooth polynomial. The input data (via local coordinate conversion) for the spline function including points from previous path and generated points, which are calculated based on Frenet coordinate conversion. 
+ In order to minimize the jerk, the spline library is used to generate the future trajectory waypoints for the car to follow. The spline method can fit a very smooth polynomial. The input data (via local coordinate conversion) for the spline function including points from previous path and generated points, which are calculated based on Frenet coordinate conversion.
 
 ---   
 ## Original README
