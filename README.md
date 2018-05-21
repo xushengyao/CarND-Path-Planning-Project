@@ -62,7 +62,7 @@ if (d<(2+4*lane_num+2) && d>(2+4*lane_num-2)) {
 
 ### Behavior Planning
 
-According to the result from the prediction module, this part is used to decide the car's behavior. For the car in this simulation, three states was used: `KL,LCR,LCL`. Also, central lane is always the preferred option rather than the passing lane or the low-speed lane.
+According to the result from the prediction module, this part is used to decide the car's behavior. For the car in this simulation, three states was used: `KL,LCR,LCL`. If there is a car blocking my current lane and the left lane is open, lane change to left lane would be implemented. While, if the left lane is also blocked, lane change to right lane would be implemented when right lane is open. Otherwise, if no passing lane is available, current car would like to slow down to maintain the buffer distance. Last but not least, the central lane is always the preferred option rather than the passing lane or the low-speed lane.
 
 ```
 if (car_ahead) {
