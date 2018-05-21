@@ -1,11 +1,11 @@
 # CarND-Path-Planning-Project
 Self-Driving Car Engineer Nanodegree Program
 
-[image1]: ./image/img.jpg
+[image]: ./image/img.jpg
 
 ---
 
-![image][image1]
+![image][image]
 
 ## Rubic Points
 ### Compilation
