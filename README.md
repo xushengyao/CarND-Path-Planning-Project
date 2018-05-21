@@ -3,7 +3,8 @@ Self-Driving Car Engineer Nanodegree Program
 
 [image1]: ./Capture.jpg
 ---
-![img1][image1]
+
+![image][image1]
 
 ## Rubic Points
 ### Compilation
