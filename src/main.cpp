@@ -266,14 +266,17 @@ int main() {
                 double check_car_s = sensor_fusion[i][5];
                 check_car_s+=(double)prev_size*.02*check_speed;
                 if (d<(2+4*lane_num+2) && d>(2+4*lane_num-2)) {
+                  //this car is in front of my car
                   if ((check_car_s > car_s) && ((check_car_s - car_s) < 30)) {
                     car_ahead = true;
                   }
                 } else if (d<(2+4*(lane_num-1)+2) && d>(2+4*(lane_num-1)-2)) {
+                  // This car is blocking my car's left passing lane.
                   if ((car_s - check_car_s < 15) && ((check_car_s - car_s) < 30)) {
                     car_left = true;
                   }
                 } else if (d<(2+4*(lane_num+1)+2) && d>(2+4*(lane_num+1)-2)) {
+                  // THis car is blocking my car's right passing lane.
                   if ((car_s - check_car_s < 15) && ((check_car_s - car_s) < 30)) {
                     car_right = true;
                   }
@@ -294,9 +297,9 @@ int main() {
               }
             } else {
               // Central Lane is the preference
-              if ((lane_num<1) && !car_right) {
+              if ((lane_num < 1) && !car_right) {
                 lane_num += 1;
-              } else if  ((lane_num>1) && !car_left) {
+              } else if  ((lane_num > 1) && !car_left) {
                 lane_num -= 1;
               }
               if (reference_speed < 49.5) {
