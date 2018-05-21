@@ -42,7 +42,7 @@ Self-Driving Car Engineer Nanodegree Program
 
 ### Prediction
 
-Regarding the prediction module, I used three flags: `car_ahead`, `car_left` and `car_right` to capture other car's position. For instance, if the car being checked is in front of my car, I would like to further check their relative distance. If the distance is within my preset buffer space, `car_ahead` flag will be reset to `Ture`(There is a car blocking my current lane). Also, for `car_right` or `car_left`, similar check process has been implemented to see if there is a car blocking my right or left passing lane.
+Regarding the prediction module, I used three flags: `car_ahead`, `car_left` and `car_right` to capture other car's relative position. For instance, if the car being checked is in front of my car, I would like to further check their relative distance. If the distance is within my preset buffer space, `car_ahead` flag will be reset to `Ture`(there is a car blocking my current lane). Also, for `car_right` or `car_left`, similar checking process has been implemented to see if there is a car blocking my right or left passing lane.
 
 ```
 if (d<(2+4*lane_num+2) && d>(2+4*lane_num-2)) {

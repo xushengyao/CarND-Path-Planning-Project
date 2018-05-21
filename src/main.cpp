@@ -256,6 +256,9 @@ int main() {
             bool car_left = false;
             bool car_right = false;
 
+            const int ahead_buffer = 30;
+            const int behind_buffer = 15;
+
             for (int i = 0; i < sensor_fusion.size(); i++) {
               float d = sensor_fusion[i][6];
               // only consider cars in my side
@@ -267,17 +270,17 @@ int main() {
                 check_car_s+=(double)prev_size*.02*check_speed;
                 if (d<(2+4*lane_num+2) && d>(2+4*lane_num-2)) {
                   //this car is in front of my car
-                  if ((check_car_s > car_s) && ((check_car_s - car_s) < 30)) {
+                  if ((check_car_s > car_s) && ((check_car_s - car_s) < ahead_buffer)) {
                     car_ahead = true;
                   }
                 } else if (d<(2+4*(lane_num-1)+2) && d>(2+4*(lane_num-1)-2)) {
                   // This car is blocking my car's left passing lane.
-                  if ((car_s - check_car_s < 15) && ((check_car_s - car_s) < 30)) {
+                  if ((car_s - check_car_s < behind_buffer) && ((check_car_s - car_s) < ahead_buffer)) {
                     car_left = true;
                   }
                 } else if (d<(2+4*(lane_num+1)+2) && d>(2+4*(lane_num+1)-2)) {
                   // THis car is blocking my car's right passing lane.
-                  if ((car_s - check_car_s < 15) && ((check_car_s - car_s) < 30)) {
+                  if ((car_s - check_car_s < behind_buffer) && ((check_car_s - car_s) < ahead_buffer)) {
                     car_right = true;
                   }
                 }
@@ -375,7 +378,7 @@ int main() {
               double y_point = s(x_point);
 
               x_add_on = x_point;
-              // Convert back
+              // Convert back to global coordinate.
               double x_ref = x_point;
               double y_ref = y_point;
 
